@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/robfig/cron/v3"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -13,6 +14,7 @@ import (
 	"time"
 	"vtmtea.com/f.cli/config"
 	"vtmtea.com/f.cli/model"
+	"vtmtea.com/f.cli/pkg/spider"
 	v "vtmtea.com/f.cli/pkg/version"
 	"vtmtea.com/f.cli/router"
 	"vtmtea.com/f.cli/router/middleware"
@@ -88,6 +90,13 @@ func main() {
 			log.Info(http.ListenAndServeTLS(viper.GetString("tls.addr"), cert, key, g).Error())
 		}()
 	}
+
+	//定时任务
+	c := cron.New()
+	c.AddFunc("@every 1h", func() {
+		go spider.Cron()
+	})
+	c.Start()
 
 	log.Infof("Start to listening the incoming requests on http address: %s", viper.GetString("addr"))
 	log.Info(http.ListenAndServe(viper.GetString("addr"), g).Error())

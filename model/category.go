@@ -1,5 +1,7 @@
 package model
 
+import "github.com/jinzhu/gorm"
+
 type CategoryModel struct {
 	BaseModel
 	Title     string `json:"title" gorm:"column:title"`
@@ -14,4 +16,14 @@ func (u *CategoryModel) TableName() string {
 
 func (u *CategoryModel) Create() error {
 	return DB.Self.Create(&u).Error
+}
+
+func (u *CategoryModel) UpdateCount() error {
+	return DB.Self.Model(&u).UpdateColumn("book_count", gorm.Expr("book_count + ?", 1)).Error
+}
+
+func GetCategoryByMap(text string) (CategoryModel, error) {
+	u := CategoryModel{}
+	err := DB.Self.Where("text_map like ?", "%"+text+"%").First(&u).Error
+	return u, err
 }
