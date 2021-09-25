@@ -2,7 +2,7 @@ SHELL := /bin/bash
 BASEDIR = $(shell pwd)
 
 # build with verison infos
-versionDir = "github.com/yufenghui/apiserver/pkg/version"
+versionDir = "vtmtea.com/f.cli/apiserver/pkg/version"
 gitTag = $(shell if [ "`git describe --tags --abbrev=0 2>/dev/null`" != "" ];then git describe --tags --abbrev=0; else git log --pretty=format:'%h' -n 1; fi)
 buildDate = $(shell TZ=Asia/Shanghai date +%FT%T%z)
 gitCommit = $(shell git log --pretty=format:'%H' -n 1)
@@ -12,13 +12,13 @@ ldflags = "-w -X ${versionDir}.gitTag=${gitTag} -X ${versionDir}.buildDate=${bui
 
 
 all: gotool
-	go build -v -ldflags ${ldflags} .
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o fiction_cli -v -ldflags ${ldflags} .
 clean:
-	rm -f apiserver
+	rm -f fiction_cli
 	find . -name "[._]*.s[a-w][a-z]" | xargs -i rm -f {}
 gotool:
 	gofmt -w .
-	go tool vet . |& grep -v vendor;true
+	go tool vet . 2>&1 | grep -v vendor;true
 ca:
 	openssl req -new -nodes -x509 -out conf/server.crt -keyout conf/server.key -days 3650 -subj "/C=DE/ST=NRW/L=Earth/O=Random Company/OU=IT/CN=127.0.0.1/emailAddress=xxxxx@qq.com"
 

@@ -93,7 +93,7 @@ func main() {
 
 	//定时任务
 	c := cron.New()
-	c.AddFunc("@every 1h", func() {
+	c.AddFunc("@every 5m", func() {
 		go spider.Cron()
 	})
 	c.Start()
