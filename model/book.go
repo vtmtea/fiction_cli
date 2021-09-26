@@ -1,5 +1,7 @@
 package model
 
+import "github.com/jinzhu/gorm"
+
 type BookModel struct {
 	BaseModel
 	Title           string `json:"title" gorm:"column:title"`
@@ -22,6 +24,18 @@ func (u *BookModel) TableName() string {
 
 func (u *BookModel) Create() error {
 	return DB.Self.Create(&u).Error
+}
+
+func BookExist(sourceLink string) bool {
+	var bookMapSource BookMapSourceModel
+	err := DB.Self.Where("source_link = ?", sourceLink).First(&bookMapSource).Error
+	if err != nil && err == gorm.ErrRecordNotFound {
+		return false
+	}
+	if bookMapSource.ID > 0 {
+		return true
+	}
+	return false
 }
 
 func GetBookByMapAttr(attr map[string]interface{}) (BookModel, error) {

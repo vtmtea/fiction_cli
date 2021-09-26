@@ -16,7 +16,7 @@ func (u *FetchFailModel) Create() error {
 
 func GetFailList(count int) []FetchFailModel {
 	var fetchFails []FetchFailModel
-	DB.Self.Limit(count).Take(&fetchFails)
+	DB.Self.Limit(count).Find(&fetchFails)
 	return fetchFails
 }
 
