@@ -91,7 +91,7 @@ func main() {
 		}()
 	}
 
-	//定时任务
+	//定时任务重试抓取失败
 	c := cron.New()
 	c.AddFunc("@every 1m", func() {
 		go spider.Cron()

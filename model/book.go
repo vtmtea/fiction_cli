@@ -38,6 +38,12 @@ func BookExist(sourceLink string) bool {
 	return false
 }
 
+func GetBookById(id uint64) BookModel {
+	var u BookModel
+	DB.Self.First(&u, id)
+	return u
+}
+
 func GetBookByMapAttr(attr map[string]interface{}) (BookModel, error) {
 	var u BookModel
 	err := DB.Self.Where(attr).First(&u).Error

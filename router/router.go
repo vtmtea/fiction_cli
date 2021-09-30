@@ -38,6 +38,10 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	v1 := g.Group("/v1")
 	//更新单本小说
 	v1.POST("/update/book", book.Update)
+	//更新小说章节列表
+	v1.GET("/update/chapter/list", book.UpdateChapterList)
+	//更新小说章节内容
+	v1.GET("/update/chapter", book.UpdateChapter)
 	//抓取小说列表
 	v1.GET("/fetch/list", book.FetchList)
 

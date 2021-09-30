@@ -8,6 +8,6 @@ func Cron() {
 	fetFails := model.GetFailList(200)
 	for _, failModel := range fetFails {
 		sourceModel, _ := model.GetSourceById(failModel.SourceId)
-		go ChapterList(failModel.SourceLink, sourceModel, failModel.Id)
+		go ChapterInfo(failModel.SourceLink, sourceModel, failModel.Id)
 	}
 }

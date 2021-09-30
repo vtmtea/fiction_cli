@@ -20,12 +20,12 @@ func List(link string, sourceRuleModel model.SourceRuleModel, sourceModel model.
 		if err != nil && err == gorm.ErrRecordNotFound {
 			log.Infof("准备创建作者： %s", author.Name)
 			author.Create()
-			go ChapterList(bookLink, sourceModel, 0)
+			go ChapterInfo(bookLink, sourceModel, 0)
 			return
 		}
 		_, err = model.GetBookByMapAttr(map[string]interface{}{"title": bookName, "status": 1, "author_id": author.ID})
 		if err != nil && err == gorm.ErrRecordNotFound {
-			go ChapterList(bookLink, sourceModel, 0)
+			go ChapterInfo(bookLink, sourceModel, 0)
 		}
 	})
 
