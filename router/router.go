@@ -44,6 +44,8 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	v1.GET("/update/chapter", book.UpdateChapter)
 	//抓取小说列表
 	v1.GET("/fetch/list", book.FetchList)
+	//抓取单本小说
+	v1.POST("/fetch/book", book.FetchOne)
 
 	svcd := g.Group("/sd")
 	{

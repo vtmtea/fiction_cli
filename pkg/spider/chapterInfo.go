@@ -6,6 +6,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"math/rand"
 	"strings"
+	"time"
 	"vtmtea.com/f.cli/model"
 )
 
@@ -29,6 +30,9 @@ func ChapterInfo(link string, sourceModel model.SourceModel, cronId uint64) {
 		return
 	}
 	c := colly.NewCollector()
+	c.Limit(&colly.LimitRule{DomainGlob: "*", Parallelism: 2})
+	c.SetRequestTimeout(30 * time.Second)
+
 	c.OnHTML("html", func(e *colly.HTMLElement) {
 		authorName := e.ChildAttr(sourceModel.AuthorRoute, "content")
 		categoryName := e.ChildAttr(sourceModel.CategoryRoute, "content")

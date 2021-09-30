@@ -14,7 +14,6 @@ import (
 	"time"
 	"vtmtea.com/f.cli/config"
 	"vtmtea.com/f.cli/model"
-	"vtmtea.com/f.cli/pkg/spider"
 	v "vtmtea.com/f.cli/pkg/version"
 	"vtmtea.com/f.cli/router"
 	"vtmtea.com/f.cli/router/middleware"
@@ -94,7 +93,7 @@ func main() {
 	//定时任务重试抓取失败
 	c := cron.New()
 	c.AddFunc("@every 1m", func() {
-		go spider.Cron()
+		//go spider.Cron()
 	})
 	c.Start()
 
