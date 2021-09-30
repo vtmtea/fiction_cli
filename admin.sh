@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SERVER="apiserver"
+SERVER="fiction_cli"
 BASE_DIR=$PWD
 INTERVAL=2
 
